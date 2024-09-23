@@ -1,0 +1,14 @@
+name: "Protolint"
+description: "Linter to enforce Protocol Buffer style and conventions"
+
+inputs:
+  working-directory:
+    description: "the path to where the .proto files are"
+    required: false
+    default: .
+
+runs:
+  using: "docker"
+  image: "yoheimuta/protolint:0.50.5"
+  args:
+    - ${{ inputs.working-directory }}

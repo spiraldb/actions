@@ -1,5 +1,5 @@
-name: "Setup Rust"
-description: "Toolchain setup and Initial compilation"
+name: "Setup Python"
+description: "Initial Python and Rye setup"
 inputs:
   rye-version:
     description: "Rye version to use"

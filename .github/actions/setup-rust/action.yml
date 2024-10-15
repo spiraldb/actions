@@ -6,6 +6,14 @@ inputs:
     description: Comma-separated list of components to be additionally installed for a new toolchain
     required: false
     default: clippy, rustfmt
+  targets:
+    description: Comma-separated list of targets to be additionally installed for a new toolchain
+    required: false
+    default: ""
+  sccache:
+    description: "Enable sccache"
+    required: false
+    default: "true"
 
 runs:
   using: "composite"
@@ -22,6 +30,7 @@ runs:
       with:
         toolchain: "${{ steps.rust-version.outputs.version }}"
         components: ${{ inputs.components }}
+        targets: ${{ inputs.targets }}
 
     - name: Rust Dependency Cache
       uses: Swatinem/rust-cache@v2
@@ -31,10 +40,11 @@ runs:
 
     - name: Rust Compile Cache
       uses: mozilla-actions/sccache-action@v0.0.6
+      if: ${{ inputs.sccache == 'true' }}
 
     - name: Rust Compile Cache Config
       shell: bash
       run: |
         echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
-        echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
+        ${{ inputs.sccache == 'true' && 'echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV' || '' }}
         echo "CARGO_INCREMENTAL=0" >> $GITHUB_ENV

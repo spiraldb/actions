@@ -6,6 +6,10 @@ inputs:
     description: "Sync the project"
     required: false
     default: "true"
+  version:
+    description: "Version of UV"
+    required: false
+    default: "0.6.3"
 
 runs:
   using: "composite"
@@ -13,7 +17,7 @@ runs:
     - name: Install uv
       uses: astral-sh/setup-uv@v5
       with:
-        version: "0.6.3"
+        version: ${{ inputs.version }}
         enable-cache: true
 
     - name: "Setup up Python"

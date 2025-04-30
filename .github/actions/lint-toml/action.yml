@@ -12,16 +12,15 @@ runs:
   steps:
     - name: Install taplo
       shell: bash
-      run: cargo install taplo-cli --locked
+      uses: taiki-e/install-action@taplo
 
     - name: Run taplo-cli
       shell: bash
       run: taplo fmt --check
 
-    - name: install cargo-sort
+    - name: Install cargo-sort
       if: ${{ inputs.is_cargo == 'true' }}
-      shell: bash
-      run: cargo install cargo-sort --locked
+      uses: taiki-e/install-action@cargo-sort
 
     - name: Run cargo-sort
       if: ${{ inputs.is_cargo == 'true' }}

@@ -14,6 +14,10 @@ inputs:
     description: "Enable sccache"
     required: false
     default: "true"
+  shared_key:
+    description: "Shared key for caching across jobs"
+    required: false
+    default: "shared" # To allow reuse across jobs
 
 runs:
   using: "composite"
@@ -36,7 +40,7 @@ runs:
       uses: Swatinem/rust-cache@v2
       with:
         save-if: ${{ github.ref_name == 'develop' }}
-        shared-key: "shared" # To allow reuse across jobs
+        shared-key: ${{ inputs.shared_key }}
 
     - name: Rust Compile Cache
       uses: mozilla-actions/sccache-action@v0.0.9

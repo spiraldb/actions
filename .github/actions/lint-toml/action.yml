@@ -1,12 +1,6 @@
 name: Lint TOML
 description: "Linter to enforce TOML style and conventions"
 
-inputs:
-  is_cargo:
-    description: "Whether the root directory is a cargo project"
-    default: "true"
-    required: false
-
 runs:
   using: "composite"
   steps:
@@ -16,12 +10,3 @@ runs:
     - name: Run taplo-cli
       shell: bash
       run: taplo fmt --check
-
-    - name: Install cargo-sort
-      if: ${{ inputs.is_cargo == 'true' }}
-      uses: taiki-e/install-action@cargo-sort
-
-    - name: Run cargo-sort
-      if: ${{ inputs.is_cargo == 'true' }}
-      shell: bash
-      run: cargo sort -wc

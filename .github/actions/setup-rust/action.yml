@@ -37,9 +37,10 @@ runs:
         targets: ${{ inputs.targets }}
 
     - name: Rust Dependency Cache
+      id: rust-dep-cache
       uses: Swatinem/rust-cache@v2
       with:
-        save-if: ${{ github.ref_name == 'develop' }}
+        save-if: ${{ github.ref_name == 'develop' && steps.rust-dep-cache.outputs.cache-hit != 'true' }}
         shared-key: ${{ inputs.shared_key }}
 
     - name: Rust Compile Cache

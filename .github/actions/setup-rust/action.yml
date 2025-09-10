@@ -18,6 +18,13 @@ inputs:
     description: "Shared key for caching across jobs"
     required: false
     default: "shared" # To allow reuse across jobs
+  timestamp:
+    description: "Timestamp cache with cargo sweep"
+
+outputs:
+  deps-cache-hit:
+    description: "True if the dependencies were cached, false otherwise"
+    value: ${{ steps.rust-dep-cache.outputs.cache-hit }}
 
 runs:
   using: "composite"
@@ -37,6 +44,7 @@ runs:
         targets: ${{ inputs.targets }}
 
     - name: Rust Dependency Cache
+      id: rust-dep-cache
       uses: Swatinem/rust-cache@v2
       with:
         save-if: ${{ github.ref_name == 'develop' }}
@@ -52,3 +60,13 @@ runs:
         echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
         ${{ inputs.sccache == 'true' && 'echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV' || '' }}
         echo "CARGO_INCREMENTAL=0" >> $GITHUB_ENV
+
+    - name: Install Sweep
+      shell: bash
+      if: ${{ inputs.timestamp == 'true' && github.ref_name == 'develop' }}
+      run: cargo install cargo-sweep
+
+    - name: Timestamp Cache
+      shell: bash
+      if: ${{ inputs.timestamp == 'true' && github.ref_name == 'develop' }}
+      run: cargo sweep --stamp

@@ -9,7 +9,7 @@ inputs:
   prune-cache:
     description: "Prune cache before save"
     required: false
-    default: "true"
+    default: ${{ github.ref == 'refs/heads/develop' }}
   version:
     description: "Version of UV"
     required: false

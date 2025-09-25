@@ -14,6 +14,9 @@ inputs:
     description: "Version of UV"
     required: false
     default: ""
+  save-cache:
+    description: "Whether to save the cache after the run"
+    default: ${{ github.ref == 'refs/heads/develop' }}
 
 runs:
   using: "composite"
@@ -24,6 +27,7 @@ runs:
         version: ${{ inputs.version }}
         enable-cache: true
         prune-cache: ${{ inputs.prune-cache }}
+        save-ache: ${{ inputs.save-cache }}
     - name: "Setup up Python"
       shell: bash
       run: uv python install

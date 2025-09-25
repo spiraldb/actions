@@ -5,7 +5,9 @@ runs:
   using: "composite"
   steps:
     - name: Install taplo
-      uses: taiki-e/install-action@taplo
+      uses: taiki-e/install-action@v2
+      with:
+        tool: taplo
 
     - name: Run taplo-cli
       shell: bash

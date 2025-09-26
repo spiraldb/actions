@@ -27,7 +27,7 @@ runs:
         version: ${{ inputs.version }}
         enable-cache: true
         prune-cache: ${{ inputs.prune-cache }}
-        save-ache: ${{ inputs.save-cache }}
+        save-cache: ${{ inputs.save-cache }}
     - name: "Setup up Python"
       shell: bash
       run: uv python install

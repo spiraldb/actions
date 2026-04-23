@@ -20,6 +20,10 @@ inputs:
     default: "shared" # To allow reuse across jobs
   timestamp:
     description: "Timestamp cache with cargo sweep"
+  dependency_cache:
+    description: "Enable dependency caching"
+    required: false
+    default: "true"
 
 outputs:
   deps-cache-hit:
@@ -45,6 +49,7 @@ runs:
 
     - name: Rust Dependency Cache
       id: rust-dep-cache
+      if: ${{ inputs.dependency_cache == 'true' }}
       uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       with:
         save-if: ${{ github.ref_name == 'develop' }}

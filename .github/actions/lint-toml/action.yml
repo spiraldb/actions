@@ -5,7 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: Install taplo
-      uses: taiki-e/install-action@055f5df8c3f65ea01cd41e9dc855becd88953486 # v2
+      uses: taiki-e/install-action@9bcaee1dcae34154180f412e2fa69355a7cda9f6 # v2
       with:
         tool: taplo
 

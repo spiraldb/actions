@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Rye Cache
       id: rye-cache
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
       with:
         path: ~/.rye
         key: "rye-${{ runner.os }}-${{ inputs.rye-version }}"
@@ -30,7 +30,7 @@ runs:
 
     - name: Venv Cache
       id: venv-cache
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
       with:
         path: .venv
         key: "venv-${{ runner.os }}-${{ hashFiles('requirements**.lock') }}"

@@ -2,6 +2,12 @@ name: Setup Rust
 description: Sets up Rust and relevant toolchain components
 
 inputs:
+  toolchain:
+    description: >-
+      Toolchain to install, e.g. "1.91.0" or "stable". Defaults to the channel in
+      rust-toolchain.toml, which is only read when this is empty.
+    required: false
+    default: ""
   components:
     description: Comma-separated list of components to be additionally installed for a new toolchain
     required: false
@@ -36,7 +42,21 @@ runs:
     - name: Rust Version
       id: rust-version
       shell: bash
-      run: echo "version=$(cat rust-toolchain.toml | grep channel | awk -F'\"' '{print $2}')" >> $GITHUB_OUTPUT
+      env:
+        # Passed through the environment rather than interpolated into the script, so that the
+        # value cannot be expanded as shell.
+        TOOLCHAIN: ${{ inputs.toolchain }}
+      run: |
+        version="$TOOLCHAIN"
+        if [ -z "$version" ]; then
+          version=$(cat rust-toolchain.toml | grep channel | awk -F'"' '{print $2}')
+        else
+          # rustup honours rust-toolchain.toml over whichever toolchain we install here, so an
+          # explicit override has to be pinned for every later cargo invocation in the job.
+          # Only set when overridden, to leave the toolchain-file path behaving exactly as before.
+          echo "RUSTUP_TOOLCHAIN=$version" >> $GITHUB_ENV
+        fi
+        echo "version=$version" >> $GITHUB_OUTPUT
 
     - name: Rust Toolchain
       id: rust-toolchain

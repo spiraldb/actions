@@ -9,6 +9,6 @@ inputs:
 
 runs:
   using: "docker"
-  image: "docker://yoheimuta/protolint:0.50.5"
+  image: "docker://yoheimuta/protolint:0.58.0"
   args:
     - ${{ inputs.working-directory }}
